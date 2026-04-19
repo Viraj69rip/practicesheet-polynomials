@@ -2,767 +2,825 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Polynomial Solutions</title>
+<title>Maths – Chapter 2 Polynomials</title>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
-  body {
-    background: #b0b8c1;
-    font-family: 'Caveat', cursive;
-    color: #1535c9;
-    padding: 20px 0 40px;
-  }
+body {
+  background: #9aa3a8;
+  font-family: 'Caveat', cursive;
+  color: #1535c9;
+  padding: 24px 0 48px;
+}
 
-  .page {
-    width: 740px;
-    margin: 28px auto;
-    background: #fefef5;
-    position: relative;
-    padding: 52px 44px 52px 90px;
-    box-shadow: 3px 5px 18px rgba(0,0,0,0.30);
-    /* notebook lines */
-    background-image:
-      repeating-linear-gradient(
-        transparent, transparent 31px,
-        #b8d4ee 31px, #b8d4ee 32px
-      );
-    background-size: 100% 32px;
-    background-position: 0 53px;
-    min-height: 1060px;
-  }
+/* ─── NOTEBOOK PAGE ─── */
+.page {
+  width: 720px;
+  margin: 30px auto;
+  background: #fefef4;
+  position: relative;
+  /* top padding leaves room for nb-header; left big for margin line */
+  padding: 62px 46px 60px 96px;
+  box-shadow: 4px 6px 22px rgba(0,0,0,0.32);
+  min-height: 1080px;
 
-  /* red margin */
-  .page::before {
-    content: '';
-    position: absolute;
-    left: 68px; top: 0; bottom: 0;
-    width: 1.5px;
-    background: #d95050;
-  }
+  /* ruled lines – 36px pitch */
+  background-image:
+    repeating-linear-gradient(
+      transparent 0px, transparent 35px,
+      #b5cfe8 35px, #b5cfe8 36px
+    );
+  background-size: 100% 36px;
+  background-position: 0 62px; /* aligns with first text line */
+}
 
-  /* top-right header like notebook */
-  .nb-hdr {
-    position: absolute;
-    top: 6px; right: 12px;
-    font-family: Arial, sans-serif;
-    font-size: 10.5px;
-    color: #555;
-    border: 1px solid #aaa;
-    min-width: 130px;
-  }
-  .nb-hdr div {
-    display: flex;
-    justify-content: space-between;
-    padding: 1px 8px;
-    border-bottom: 1px solid #aaa;
-    line-height: 17px;
-  }
-  .nb-hdr div:last-child { border-bottom: none; }
+/* red margin line */
+.page::before {
+  content:'';
+  position:absolute;
+  left:72px; top:0; bottom:0;
+  width:1.5px;
+  background:#d44;
+}
 
-  /* section label – centred, underlined */
-  .sec {
-    display: block;
-    text-align: center;
-    font-size: 21px;
-    font-weight: 700;
-    text-decoration: underline;
-    line-height: 32px;
-    margin: 0 0 6px;
-    letter-spacing: 0.3px;
-  }
+/* ─── TOP-RIGHT NOTEBOOK HEADER ─── */
+.nbh {
+  position:absolute;
+  top:8px; right:14px;
+  font-family: Arial, sans-serif;
+  font-size:10px;
+  color:#555;
+  border:1px solid #999;
+  min-width:126px;
+}
+.nbh div {
+  display:flex;
+  justify-content:space-between;
+  padding:1px 7px;
+  border-bottom:1px solid #aaa;
+  line-height:16px;
+}
+.nbh div:last-child { border-bottom:none; }
 
-  /* question heading */
-  .q {
-    display: block;
-    font-size: 19.5px;
-    font-weight: 600;
-    line-height: 32px;
-    margin-top: 4px;
-  }
+/* ─── SECTION HEADING ─── */
+.sec {
+  display:block;
+  text-align:center;
+  font-size:22px;
+  font-weight:700;
+  text-decoration:underline;
+  line-height:36px;
+  letter-spacing:.3px;
+  margin-bottom:2px;
+}
 
-  /* solution block */
-  .sol { padding-left: 12px; }
+/* ─── QUESTION BLOCK ─── */
+.qb { margin-top:2px; }
 
-  /* each solution line */
-  .r {
-    display: block;
-    font-size: 19px;
-    line-height: 32px;
-    padding-left: 30px;
-    position: relative;
-  }
+.qt {
+  display:block;
+  font-size:19.5px;
+  font-weight:600;
+  line-height:36px;
+}
 
-  /* arrow prefix – only on first line */
-  .r.arr::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    font-size: 19px;
-  }
+/* ─── SOLUTION LINES ─── */
+.sol { padding-left:10px; }
 
-  /* boxed answer */
-  .bx {
-    display: inline-block;
-    border: 1.8px solid #1535c9;
-    padding: 0 4px 1px;
-    border-radius: 2px;
-    line-height: 1.1;
-  }
+.ln {
+  display:block;
+  font-size:19px;
+  line-height:36px;
+  padding-left:34px;
+  position:relative;
+}
+.ln.go::before {   /* arrow on first line */
+  content:'→';
+  position:absolute;
+  left:0;
+  font-size:19px;
+}
 
-  /* thin divider between questions */
-  .qblock { margin-bottom: 1px; }
+/* ─── INLINE STACKED FRACTION ─── */
+.fr {
+  display:inline-flex;
+  flex-direction:column;
+  align-items:center;
+  vertical-align:middle;
+  font-size:15px;
+  line-height:1.15;
+  margin:0 2px;
+  position:relative;
+  top:-1px;
+}
+.fr .num { border-bottom:1.4px solid #1535c9; padding:0 3px; }
+.fr .den { padding:0 3px; }
+
+/* ─── BOXED ANSWER ─── */
+.bx {
+  display:inline-block;
+  border:1.8px solid #1535c9;
+  padding:0 5px 1px;
+  border-radius:2px;
+}
+
+/* sub-underline for case study heading */
+.csub {
+  display:block;
+  font-size:20px;
+  font-weight:700;
+  text-decoration:underline;
+  line-height:36px;
+  margin-top:4px;
+}
 </style>
 </head>
 <body>
 
-<!-- ══════════ PAGE 1 – Section A MCQ Q1–Q8 ══════════ -->
+<!-- ════════════════════════════════
+     PAGE 1  –  Section A  MCQ  Q1–Q8
+     ════════════════════════════════ -->
 <div class="page">
-  <div class="nb-hdr">
-    <div><span>Page No.</span><span></span></div>
-    <div><span>Date</span><span></span></div>
-  </div>
+<div class="nbh">
+  <div><span>Page No.</span><span></span></div>
+  <div><span>Date</span><span></span></div>
+</div>
 
-  <span class="sec">Section A – MCQ</span>
+<span class="sec">Section A</span>
 
-  <div class="qblock">
-    <span class="q">Q. 1. Which is NOT a graph of quadratic polynomial?</span>
-    <div class="sol">
-      <span class="r arr">Quadratic polynomial always gives a parabola (∪ or ∩ shape).</span>
-      <span class="r">Graph (d) is not a parabola.  <span class="bx">Ans: (d)</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 2. Number of zeroes of p(x) from graph?</span>
-    <div class="sol">
-      <span class="r arr">Graph crosses x-axis at 3 points (A, O, B).</span>
-      <span class="r"><span class="bx">Ans: (a) 3</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 3. Zeroes of polynomial = no. of points where graph…</span>
-    <div class="sol">
-      <span class="r arr"><span class="bx">Ans: (a) Intersects the x-axis</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 4. Zeroes of p(x) = 2x² – 5x – 3</span>
-    <div class="sol">
-      <span class="r arr">2x² – 6x + x – 3 = 0</span>
-      <span class="r">2x(x – 3) + 1(x – 3) = 0</span>
-      <span class="r">(2x + 1)(x – 3) = 0  →  x = –1/2  and  3</span>
-      <span class="r"><span class="bx">Ans: (b)  –1/2 and 3</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 5. Zeroes of x² – √2 x – 12</span>
-    <div class="sol">
-      <span class="r arr">x = [√2 ± √(2 + 48)] / 2  =  [√2 ± 5√2] / 2</span>
-      <span class="r"><span class="bx">Ans: (b)  3√2  and  –2√2</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 6. One zero of p(x) = x² + 3x + k is 2. Find k.</span>
-    <div class="sol">
-      <span class="r arr">p(2) = (2)² + 3(2) + k = 0</span>
-      <span class="r">4 + 6 + k = 0  →  10 + k = 0</span>
-      <span class="r"><span class="bx">k = –10</span>  →  Ans: b] –10</span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 7. If –1 is zero of p(x) = x² – 7x – 8, find other zero.</span>
-    <div class="sol">
-      <span class="r arr">Let α = –1,  β = ?</span>
-      <span class="r">α + β = –b/a = <span class="bx">7</span></span>
-      <span class="r">–1 + β = 7  →  β = 7 + 1</span>
-      <span class="r"><span class="bx">β = 8</span>  →  Ans: (d)</span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 8. Quadratic polynomial, sum = 5 and product = 0.</span>
-    <div class="sol">
-      <span class="r arr">p(x) = x² – (sum)x + product  =  x² – 5x</span>
-      <span class="r"><span class="bx">Ans: (c)  2x(x – 5)</span></span>
-    </div>
+<div class="qb">
+  <span class="qt">Q.1. Which is NOT a graph of quadratic polynomial ?</span>
+  <div class="sol">
+    <span class="ln go">Quadratic polynomial always gives a parabola (∪ or ∩ shape).</span>
+    <span class="ln">Graph (d) is not parabola shaped.  <span class="bx">Ans : (d)</span></span>
   </div>
 </div>
 
-<!-- ══════════ PAGE 2 – Q9–Q16 ══════════ -->
-<div class="page">
-  <div class="nb-hdr">
-    <div><span>Page No.</span><span></span></div>
-    <div><span>Date</span><span></span></div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 9. Quadratic polynomial whose zeroes are –3 &amp; 4.</span>
-    <div class="sol">
-      <span class="r arr">sum = –3 + 4 = 1,   product = –3 × 4 = –12</span>
-      <span class="r">p(x) = x² – x – 12</span>
-      <span class="r"><span class="bx">Ans: (c)  x²/2 – x/2 – 6</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 10. Zeroes of x² + (a+1)x + b are 2 and –3. Find a &amp; b.</span>
-    <div class="sol">
-      <span class="r arr">sum = 2 + (–3) = –1 = –(a+1)  →  <span class="bx">a = 0</span></span>
-      <span class="r">product = 2 × (–3) = –6 = b  →  <span class="bx">b = –6</span></span>
-      <span class="r"><span class="bx">Ans: (c)  a = 0,  b = –6</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 11. Sum and product of zeroes of 6x² – 5 respectively?</span>
-    <div class="sol">
-      <span class="r arr">6x² + 0x – 5</span>
-      <span class="r">sum = –0/6 = 0.   product = c/a = –5/6</span>
-      <span class="r"><span class="bx">Ans: (d)  0 and –5/6</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 12. One zero of p(x) = (k²+4)x² + 13x + 4k is reciprocal of other.</span>
-    <div class="sol">
-      <span class="r arr">If zeroes are α and 1/α  →  product = 1.</span>
-      <span class="r">4k/(k²+4) = 1  →  k² – 4k + 4 = 0  →  (k–2)² = 0</span>
-      <span class="r"><span class="bx">Ans: (a)  k = 2</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 13. Polynomial whose zeroes are 2+√3 &amp; 2–√3.</span>
-    <div class="sol">
-      <span class="r arr">sum = 4,   product = (2+√3)(2–√3) = 4–3 = 1</span>
-      <span class="r"><span class="bx">Ans: (b)  x² – 4x + 1</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 14. α &amp; β zeroes of 2x² + 5x – 9, find αβ.</span>
-    <div class="sol">
-      <span class="r arr">αβ = c/a = –9/2</span>
-      <span class="r"><span class="bx">Ans: (c)  –9/2</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 15. Quadratic polynomial whose zeroes are 2/5 and –1/5.</span>
-    <div class="sol">
-      <span class="r arr">sum = 1/5,   product = –2/25</span>
-      <span class="r">x² – (1/5)x – 2/25  →  × 25  =  25x² – 5x – 2</span>
-      <span class="r"><span class="bx">Ans: (d)  25x² – 5x – 2</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 16. α &amp; β zeroes of px² – 2x + 3p and α+β = αβ. Find p.</span>
-    <div class="sol">
-      <span class="r arr">α+β = 2/p,   αβ = 3</span>
-      <span class="r">Given: 2/p = 3  →  2 = 3p</span>
-      <span class="r"><span class="bx">Ans: (b)  p = 2/3</span></span>
-    </div>
+<div class="qb">
+  <span class="qt">Q.2. Number of zeroes of p(x) from the graph ?</span>
+  <div class="sol">
+    <span class="ln go">Graph crosses x-axis at 3 points (A, O, B).</span>
+    <span class="ln"><span class="bx">Ans : (a) 3</span></span>
   </div>
 </div>
 
-<!-- ══════════ PAGE 3 – Assertion Reason Q17–Q20 ══════════ -->
-<div class="page">
-  <div class="nb-hdr">
-    <div><span>Page No.</span><span></span></div>
-    <div><span>Date</span><span></span></div>
-  </div>
-
-  <span class="sec">Section A – Assertion Reason</span>
-
-  <div class="qblock">
-    <span class="q">Q. 17. Assertion – one zero of (k–1)x² + kx + 1 is –3, then k = 4/3.<br>
-    Reason – A real number a is zero of p(x) if p(a) = 0.</span>
-    <div class="sol">
-      <span class="r arr">p(–3) = (k–1)(9) + k(–3) + 1 = 0</span>
-      <span class="r">9k – 9 – 3k + 1 = 0  →  6k = 8  →  k = 4/3  ✓</span>
-      <span class="r">R is correct definition and correctly explains A.</span>
-      <span class="r"><span class="bx">Ans: (a) Both A and R true, R is correct explanation.</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 18. Assertion – graph of p(x) parallel to x-axis → no zeroes.<br>
-    Reason – if p(x) doesn't intersect x-axis, it has no zeroes.</span>
-    <div class="sol">
-      <span class="r arr">A line parallel to x-axis never crosses it.  A is TRUE.</span>
-      <span class="r">R is TRUE and correctly explains A.</span>
-      <span class="r"><span class="bx">Ans: (a) Both A and R true, R is correct explanation.</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 19. Assertion – α, β zeroes of x² – 5x – 3, then (α/β + β/α) = 31/3.<br>
-    Reason – α+β = –b/a  and  αβ = c/a.</span>
-    <div class="sol">
-      <span class="r arr">α + β = 5,   αβ = –3</span>
-      <span class="r">α/β + β/α = [(α+β)² – 2αβ] / αβ = [25+6] / (–3) = –31/3</span>
-      <span class="r">A says 31/3 but correct value is –31/3.  A is FALSE, R is TRUE.</span>
-      <span class="r"><span class="bx">Ans: (d) A is false but R is true.</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 20. Assertion – zeroes of p(n) = x² – 2n – 3 are –1 &amp; –3.<br>
-    Reason – graph of p(n) = x² – 2n – 3 intersects x-axis at (–1,0) and (3,0).</span>
-    <div class="sol">
-      <span class="r arr">x² – 2x – 3 = (x–3)(x+1) = 0  →  zeroes are –1 and 3.</span>
-      <span class="r">A says –1 &amp; –3 but correct is –1 &amp; 3.  A is FALSE, R is TRUE.</span>
-      <span class="r"><span class="bx">Ans: (d) A is false but R is true.</span></span>
-    </div>
+<div class="qb">
+  <span class="qt">Q.3. Zeroes of polynomial = no. of points where graph …</span>
+  <div class="sol">
+    <span class="ln go"><span class="bx">Ans : (a) Intersects the x-axis</span></span>
   </div>
 </div>
 
-<!-- ══════════ PAGE 4 – Section B Q21–Q27 ══════════ -->
-<div class="page">
-  <div class="nb-hdr">
-    <div><span>Page No.</span><span></span></div>
-    <div><span>Date</span><span></span></div>
-  </div>
-
-  <span class="sec">Section B</span>
-
-  <div class="qblock">
-    <span class="q">Q. 21. Find zeroes of 4x² – 7.</span>
-    <div class="sol">
-      <span class="r arr">4x² – 7 = 0  →  x² = 7/4  →  x = ± √7/2</span>
-      <span class="r"><span class="bx">Zeroes: √7/2  ,  –√7/2</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 22. Quadratic polynomial, sum = 6, product = 9. Find zeroes.</span>
-    <div class="sol">
-      <span class="r arr">x² – (sum)x + product  =  x² – 6x + 9</span>
-      <span class="r">x² – 3x – 3x + 9  =  x(x–3) – 3(x–3)  =  (x–3)(x–3)</span>
-      <span class="r"><span class="bx">Zeroes are 3 &amp; 3.</span>   Quadratic polynomial = x² – 6x + 9</span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 23. Find quadratic polynomial whose zeroes are –2 &amp; –5.</span>
-    <div class="sol">
-      <span class="r arr">sum = –7,   product = 10</span>
-      <span class="r"><span class="bx">p(x) = x² + 7x + 10</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 24. Find quadratic polynomial whose zeroes are –9 &amp; 6.</span>
-    <div class="sol">
-      <span class="r arr">sum = –3,   product = –54</span>
-      <span class="r"><span class="bx">p(x) = x² + 3x – 54</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 25. Find zeroes of 5t² + 12t – 17.</span>
-    <div class="sol">
-      <span class="r arr">5t² + 17t – 5t – 17 = 0</span>
-      <span class="r">t(5t+17) – 1(5t+17) = 0  →  (t–1)(5t+17) = 0</span>
-      <span class="r"><span class="bx">t = 1  and  t = –17/5</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 26. Find k if –1 is zero of p(x) = kx² – 4x + k.</span>
-    <div class="sol">
-      <span class="r arr">p(–1) = k(1) – 4(–1) + k = 0</span>
-      <span class="r">k + 4 + k = 0  →  2k = –4</span>
-      <span class="r"><span class="bx">k = –2</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 27. Find a &amp; b if they are zeroes of x² + ax + b.</span>
-    <div class="sol">
-      <span class="r arr">sum: a + b = –a  →  2a + b = 0 …(i)</span>
-      <span class="r">Product: ab = b  →  b(a–1) = 0  →  a = 1</span>
-      <span class="r">From (i): 2 + b = 0  →  b = –2</span>
-      <span class="r"><span class="bx">a = 1,  b = –2</span></span>
-    </div>
+<div class="qb">
+  <span class="qt">Q.4. Zeroes of p(x) = 2x² – 5x – 3</span>
+  <div class="sol">
+    <span class="ln go">2x² – 6x + x – 3 = 0</span>
+    <span class="ln">2x(x – 3) + 1(x – 3) = 0</span>
+    <span class="ln">(2x + 1)(x – 3) = 0 &nbsp;→&nbsp; x = <span class="fr"><span class="num">–1</span><span class="den">2</span></span> and 3</span>
+    <span class="ln"><span class="bx">Ans : (b) &nbsp; <span class="fr"><span class="num">–1</span><span class="den">2</span></span> and 3</span></span>
   </div>
 </div>
 
-<!-- ══════════ PAGE 5 – Q28–Q31 ══════════ -->
-<div class="page">
-  <div class="nb-hdr">
-    <div><span>Page No.</span><span></span></div>
-    <div><span>Date</span><span></span></div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 28. α &amp; β zeroes of f(x) = x² – 6x + k, find k if α² + β² = 40.</span>
-    <div class="sol">
-      <span class="r arr">α + β = 6,   αβ = k.</span>
-      <span class="r">α² + β² = (α+β)² – 2αβ  =  36 – 2k = 40</span>
-      <span class="r">36 – 2k = 40  →  2k = 4  →  k = 4/–2</span>
-      <span class="r"><span class="bx">k = –2</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 29. α &amp; β zeroes of 8x² + 14x + 3. Find 1/α + 1/β.</span>
-    <div class="sol">
-      <span class="r arr">α + β = –14/8 = –7/4</span>
-      <span class="r">αβ = 3/8</span>
-      <span class="r">1/α + 1/β = α+β / αβ  =  (–7/4) / (3/8)  =  –7/4 × 8/3</span>
-      <span class="r"><span class="bx">= –14/3</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 30. Zeroes of x² + px + q are double the zeroes of 2x² – 5x – 3. Find p &amp; q.</span>
-    <div class="sol">
-      <span class="r arr">Zeroes of 2x² – 5x – 3:</span>
-      <span class="r">(2x+1)(x–3) = 0  →  zeroes: –1/2 and 3</span>
-      <span class="r">Double: –1 and 6</span>
-      <span class="r">sum = 5 = –p  →  p = –5.   product = –6 = q</span>
-      <span class="r"><span class="bx">p = –5,  q = –6</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 31. Find polynomial whose zeroes are reciprocals of zeroes of f(x) = ax² + bx + c.</span>
-    <div class="sol">
-      <span class="r arr">Let α, β be zeroes.  New zeroes: 1/α and 1/β.</span>
-      <span class="r">New sum = (α+β)/(αβ) = (–b/a) / (c/a) = –b/c</span>
-      <span class="r">New product = 1/(αβ) = a/c</span>
-      <span class="r">p(x) = x² + (b/c)x + a/c  →  × c:</span>
-      <span class="r"><span class="bx">Required polynomial = cx² + bx + a</span></span>
-    </div>
+<div class="qb">
+  <span class="qt">Q.5. Zeroes of x² – √2 x – 12</span>
+  <div class="sol">
+    <span class="ln go">x = <span class="fr"><span class="num">√2 ± √(2 + 48)</span><span class="den">2</span></span> &nbsp;=&nbsp; <span class="fr"><span class="num">√2 ± 5√2</span><span class="den">2</span></span></span>
+    <span class="ln"><span class="bx">Ans : (b) &nbsp;3√2 &nbsp;and&nbsp; –2√2</span></span>
   </div>
 </div>
 
-<!-- ══════════ PAGE 6 – Section C Q32–Q35 ══════════ -->
-<div class="page">
-  <div class="nb-hdr">
-    <div><span>Page No.</span><span></span></div>
-    <div><span>Date</span><span></span></div>
-  </div>
-
-  <span class="sec">Section C</span>
-
-  <div class="qblock">
-    <span class="q">Q. 32. α &amp; β zeroes of p(x) = x² – (k+6)x + 2(2k–1). Find k if α+β = αβ/2.</span>
-    <div class="sol">
-      <span class="r arr">sum = α+β = k+6</span>
-      <span class="r">product = αβ = 2(2k–1) = 4k–2.</span>
-      <span class="r">Given: k+6 = (4k–2)/2  →  k+6 = 2k–1</span>
-      <span class="r">6 + 1 = 2k – k.</span>
-      <span class="r"><span class="bx">k = 7</span>.</span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 33. α &amp; β zeroes of 2x² + 7x + 5. Find α² + β² + αβ.</span>
-    <div class="sol">
-      <span class="r arr">α + β = –7/2,   αβ = 5/2</span>
-      <span class="r">α² + β² + αβ = (α+β)² – 2αβ + αβ  =  (α+β)² – αβ</span>
-      <span class="r">= (–7/2)² – 5/2  =  49/4 – 10/4</span>
-      <span class="r"><span class="bx">= 39/4</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 34. Find zeroes of 6x² – 7x – 3 and verify relationship.</span>
-    <div class="sol">
-      <span class="r arr">6x² – 9x + 2x – 3 = 0</span>
-      <span class="r">3x(2x – 3) + 1(2x – 3) = 0  →  (3x+1)(2x–3) = 0</span>
-      <span class="r">Zeroes: x = –1/3  and  x = 3/2</span>
-      <span class="r">sum = –1/3 + 3/2 = 7/6 = –(–7)/6 = –b/a  ✓</span>
-      <span class="r">product = (–1/3)(3/2) = –1/2 = c/a  ✓</span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 35. Find zeroes of 4√5 x² – 17x + 3√5 and verify.</span>
-    <div class="sol">
-      <span class="r arr">Product of extremes = 4√5 × 3√5 = 60,  sum = –17</span>
-      <span class="r">Factors: –12 and –5</span>
-      <span class="r">4√5 x² – 12x – 5x + 3√5 = 0</span>
-      <span class="r">4x(√5 x – 3) – √5(√5 x – 3) = 0  →  (4x – √5)(√5 x – 3) = 0</span>
-      <span class="r">Zeroes: x = √5/4  and  x = 3/√5</span>
-      <span class="r">sum = √5/4 + 3/√5 = 17/4√5 = –b/a  ✓   product = 3/4 = c/a  ✓</span>
-    </div>
+<div class="qb">
+  <span class="qt">Q.6. One zero of p(x) = x² + 3x + k is 2. Find k.</span>
+  <div class="sol">
+    <span class="ln go">p(2) = (2)² + 3(2) + k = 0</span>
+    <span class="ln">4 + 6 + k = 0 &nbsp;→&nbsp; 10 + k = 0</span>
+    <span class="ln"><span class="bx">k = –10</span> &nbsp; b] –10</span>
   </div>
 </div>
 
-<!-- ══════════ PAGE 7 – Q36–Q40 ══════════ -->
-<div class="page">
-  <div class="nb-hdr">
-    <div><span>Page No.</span><span></span></div>
-    <div><span>Date</span><span></span></div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 36. Show 1/2 and –3/2 are zeroes of 4x² + 4x – 3 and verify.</span>
-    <div class="sol">
-      <span class="r arr">p(1/2) = 4(1/4) + 4(1/2) – 3 = 1 + 2 – 3 = 0  ✓</span>
-      <span class="r">p(–3/2) = 4(9/4) + 4(–3/2) – 3 = 9 – 6 – 3 = 0  ✓</span>
-      <span class="r">sum = 1/2 + (–3/2) = –1 = –4/4 = –b/a  ✓</span>
-      <span class="r">product = (1/2)(–3/2) = –3/4 = c/a  ✓</span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 37. Sum of zeroes of p(x) = (a+1)x² + (2a+3)x + (3a+4) is –1. Find product of zeroes.</span>
-    <div class="sol">
-      <span class="r arr">sum = –(2a+3)/(a+1) = –1  →  2a+3 = a+1  →  a = –2</span>
-      <span class="r">product = (3(–2)+4) / (–2+1) = (–2) / (–1)</span>
-      <span class="r"><span class="bx">Product = 2</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 38. α, β zeroes of 4x² + 4x + 1. Form polynomial with zeroes 2α and 2β.</span>
-    <div class="sol">
-      <span class="r arr">4x² + 4x + 1 = (2x+1)²  →  α = β = –1/2</span>
-      <span class="r">2α = 2β = –1</span>
-      <span class="r">sum = –2,   product = 1</span>
-      <span class="r"><span class="bx">= x² + 2x + 1  =  (x+1)²</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 39. Zeroes of x² – x – 2 are α &amp; β. Construct polynomial with zeroes 2α+1 and 2β+1.</span>
-    <div class="sol">
-      <span class="r arr">x² – x – 2 = (x–2)(x+1)  →  α = 2,  β = –1</span>
-      <span class="r">2α+1 = 5,   2β+1 = –1</span>
-      <span class="r">sum = 4,   product = –5</span>
-      <span class="r"><span class="bx">p(x) = x² – 4x – 5</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 40. One zero of 3x² = 8x + 2k+1 is seven times the other. Find solutions and k.</span>
-    <div class="sol">
-      <span class="r arr">3x² – 8x – (2k+1) = 0.  Let zeroes be α and 7α.</span>
-      <span class="r">sum: 8α = 8/3  →  α = 1/3</span>
-      <span class="r">product: 7α² = –(2k+1)/3  →  7/9 = –(2k+1)/3</span>
-      <span class="r">7/3 = –(2k+1)  →  k = –5/3</span>
-      <span class="r"><span class="bx">Zeroes: 1/3  and  7/3.  k = –5/3</span></span>
-    </div>
+<div class="qb">
+  <span class="qt">Q.7. If –1 is zero of p(x) = x² – 7x – 8, find other zero.</span>
+  <div class="sol">
+    <span class="ln go">Let α = –1, β = ?</span>
+    <span class="ln">α + β = <span class="fr"><span class="num">–b</span><span class="den">a</span></span> = <span class="bx">7</span></span>
+    <span class="ln">–1 + β = 7 &nbsp;→&nbsp; β = 7 + 1 &nbsp;→&nbsp; <span class="bx">β = 8</span> &nbsp; Ans : (d)</span>
   </div>
 </div>
 
-<!-- ══════════ PAGE 8 – Q41–Q44 ══════════ -->
-<div class="page">
-  <div class="nb-hdr">
-    <div><span>Page No.</span><span></span></div>
-    <div><span>Date</span><span></span></div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 41. α &amp; β zeroes of 2x² – 5x + 7. Find polynomial with zeroes 2α+3β and 3α+2β.</span>
-    <div class="sol">
-      <span class="r arr">α + β = 5/2,   αβ = 7/2</span>
-      <span class="r">sum = 5(α+β) = 5 × 5/2 = 25/2</span>
-      <span class="r">product = (2α+3β)(3α+2β) = 6(α²+β²) + 13αβ</span>
-      <span class="r">= 6[(25/4)–7] + 13(7/2)  =  –9/2 + 91/2 = 41</span>
-      <span class="r"><span class="bx">p(x) = 2x² – 25x + 82</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 42. α &amp; β zeroes of 5x² + 5x + 1. Find (i) α² + β²  (ii) α⁻¹ + β⁻¹</span>
-    <div class="sol">
-      <span class="r arr">α + β = –1,   αβ = 1/5</span>
-      <span class="r">(i) α² + β² = (α+β)² – 2αβ = 1 – 2/5 = <span class="bx">3/5</span></span>
-      <span class="r">(ii) α⁻¹ + β⁻¹ = (α+β)/(αβ) = –1/(1/5) = <span class="bx">–5</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 43. Find zeroes of 4√3 x² + 5x – 2√3 by factorisation &amp; verify.</span>
-    <div class="sol">
-      <span class="r arr">Product = 4√3 × (–2√3) = –24,  sum = 5</span>
-      <span class="r">Factors: 8 and –3</span>
-      <span class="r">4√3 x² + 8x – 3x – 2√3 = 0</span>
-      <span class="r">4x(√3 x + 2) – √3(√3 x + 2) = 0  →  (4x – √3)(√3 x + 2) = 0</span>
-      <span class="r">Zeroes: x = √3/4  and  x = –2/√3</span>
-      <span class="r">sum = –5/(4√3) = –b/a  ✓   product = –2/4 = –1/2 = c/a  ✓</span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 44. One zero of x² – 6x + b is twice the other. Find b &amp; zeroes.</span>
-    <div class="sol">
-      <span class="r arr">Let zeroes be α and 2α.</span>
-      <span class="r">sum: 3α = 6  →  α = 2.   Zeroes = 2 and 4.</span>
-      <span class="r">product: 2 × 4 = 8 = b</span>
-      <span class="r"><span class="bx">b = 8,  Zeroes = 2 and 4</span></span>
-    </div>
+<div class="qb">
+  <span class="qt">Q.8. Quadratic polynomial, sum = 5 and product = 0.</span>
+  <div class="sol">
+    <span class="ln go">p(x) = x² – (sum)x + product = x² – 5x = x(x – 5)</span>
+    <span class="ln"><span class="bx">Ans : (c) &nbsp;2x(x – 5)</span></span>
   </div>
 </div>
 
-<!-- ══════════ PAGE 9 – Section D Q45–Q48 ══════════ -->
+</div><!-- end page 1 -->
+
+
+<!-- ════════════════════════════════
+     PAGE 2  –  Q9–Q16
+     ════════════════════════════════ -->
 <div class="page">
-  <div class="nb-hdr">
-    <div><span>Page No.</span><span></span></div>
-    <div><span>Date</span><span></span></div>
-  </div>
+<div class="nbh">
+  <div><span>Page No.</span><span></span></div>
+  <div><span>Date</span><span></span></div>
+</div>
 
-  <span class="sec">Section D</span>
-
-  <div class="qblock">
-    <span class="q">Q. 45. α &amp; β zeroes of 2x² + 5x + k with α² + β² + αβ = 21/4. Find k.</span>
-    <div class="sol">
-      <span class="r arr">α + β = –5/2,   αβ = k/2</span>
-      <span class="r">α² + β² + αβ = (α+β)² – αβ  =  25/4 – k/2 = 21/4</span>
-      <span class="r">k/2 = 4/4 = 1  →  <span class="bx">k = 2</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 46. α, β zeroes of f(x) = 2x² + 11x + 5. Find (a) α⁴ + β⁴  (b) 1/α + 1/β – 2αβ</span>
-    <div class="sol">
-      <span class="r arr">α + β = –11/2,   αβ = 5/2</span>
-      <span class="r">(a) α² + β² = (–11/2)² – 2(5/2) = 121/4 – 5 = 101/4</span>
-      <span class="r">α⁴ + β⁴ = (101/4)² – 2(5/2)² = 10201/16 – 200/16 = <span class="bx">10001/16</span></span>
-      <span class="r">(b) 1/α + 1/β – 2αβ = (α+β)/(αβ) – 2αβ</span>
-      <span class="r">= (–11/2)/(5/2) – 2(5/2) = –11/5 – 5 = <span class="bx">–36/5</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 47. α &amp; β zeroes of 3x² + 2x + 1. Find polynomial with zeroes (1–α)/(1+α) and (1–β)/(1+β).</span>
-    <div class="sol">
-      <span class="r arr">α + β = –2/3,   αβ = 1/3</span>
-      <span class="r">New sum = [2 – 2αβ] / [1+(α+β)+αβ] = (4/3)/(2/3) = 2</span>
-      <span class="r">New product = [1–(α+β)+αβ] / [1+(α+β)+αβ] = 2 / (2/3) = 3</span>
-      <span class="r"><span class="bx">Required polynomial: x² – 2x + 3</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 48. One zero of f(x) = 4x² – 8kx + 8x – 9 is negative of other. Find zeroes of kx² + 3kx + 2.</span>
-    <div class="sol">
-      <span class="r arr">f(x) = 4x² + (8–8k)x – 9</span>
-      <span class="r">Zeroes α and –α  →  sum = 0  →  –(8–8k)/4 = 0  →  k = 1</span>
-      <span class="r">kx²+3kx+2 = x²+3x+2 = (x+1)(x+2)</span>
-      <span class="r"><span class="bx">Zeroes = –1 and –2</span></span>
-    </div>
+<div class="qb">
+  <span class="qt">Q.9. Quadratic polynomial whose zeroes are –3 &amp; 4.</span>
+  <div class="sol">
+    <span class="ln go">sum = –3 + 4 = 1 &nbsp;&nbsp; product = –3 × 4 = –12</span>
+    <span class="ln">p(x) = x² – x – 12 &nbsp; <span class="bx">Ans : (c) &nbsp;<span class="fr"><span class="num">x²</span><span class="den">2</span></span> – <span class="fr"><span class="num">x</span><span class="den">2</span></span> – 6</span></span>
   </div>
 </div>
 
-<!-- ══════════ PAGE 10 – Section E Case Studies ══════════ -->
-<div class="page">
-  <div class="nb-hdr">
-    <div><span>Page No.</span><span></span></div>
-    <div><span>Date</span><span></span></div>
-  </div>
-
-  <span class="sec">Section E – Case Studies</span>
-
-  <span class="q" style="text-decoration:underline; margin-top:2px;">Case Study I – Highway Underpass</span>
-
-  <div class="qblock">
-    <span class="q">Q. 1. Highway overpass = x² – 2x – 8. Calculate zeroes.</span>
-    <div class="sol">
-      <span class="r arr">(x–4)(x+2) = 0</span>
-      <span class="r"><span class="bx">Zeroes: x = 4  and  x = –2</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 2. For p(x) = ax² + bx + c, graph opens upward for what values of a?</span>
-    <div class="sol">
-      <span class="r arr">Parabola opens upward when coefficient of x² is positive.</span>
-      <span class="r"><span class="bx">a &gt; 0</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 3. One zero = 6, sum = 0. Represent using quadratic polynomial.</span>
-    <div class="sol">
-      <span class="r arr">sum = 0  →  other zero = –6.   product = –36</span>
-      <span class="r"><span class="bx">p(x) = x² – 36</span></span>
-    </div>
-  </div>
-
-  <span class="q" style="text-decoration:underline; margin-top:4px;">Case Study II – Rainbow</span>
-
-  <div class="qblock">
-    <span class="q">Q. 1. From graph, write number of zeroes of the curve.</span>
-    <div class="sol">
-      <span class="r arr">Graph touches x-axis at 2 points.  <span class="bx">Number of zeroes = 2</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 2. Graph does not intersect X-axis. How many zeroes?</span>
-    <div class="sol">
-      <span class="r arr"><span class="bx">Zeroes = 0</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 3(a). p(x) = x² + (a+1)x + b, zeroes 2 and –3. Find a &amp; b.</span>
-    <div class="sol">
-      <span class="r arr">sum = –1 = –(a+1)  →  <span class="bx">a = 0</span>.   product = –6 = b  →  <span class="bx">b = –6</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 3(b). OR: x² – 2x – (7p+3), –4 is zero. Find p.</span>
-    <div class="sol">
-      <span class="r arr">(–4)² – 2(–4) – (7p+3) = 0  →  16+8–7p–3 = 0  →  21 = 7p</span>
-      <span class="r"><span class="bx">p = 3</span></span>
-    </div>
+<div class="qb">
+  <span class="qt">Q.10. Zeroes of x² + (a+1)x + b are 2 and –3. Find a &amp; b.</span>
+  <div class="sol">
+    <span class="ln go">sum = 2 + (–3) = –1 = –(a+1) &nbsp;→&nbsp; <span class="bx">a = 0</span></span>
+    <span class="ln">product = 2 × (–3) = –6 = b &nbsp;→&nbsp; <span class="bx">b = –6</span></span>
+    <span class="ln"><span class="bx">Ans : (c) &nbsp; a = 0, b = –6</span></span>
   </div>
 </div>
 
-<!-- ══════════ PAGE 11 – Case Study III Dolphin ══════════ -->
-<div class="page">
-  <div class="nb-hdr">
-    <div><span>Page No.</span><span></span></div>
-    <div><span>Date</span><span></span></div>
-  </div>
-
-  <span class="q" style="text-decoration:underline;">Case Study III – Dolphin</span>
-
-  <div class="qblock">
-    <span class="q">Q. 1. Find zeroes of p(t) = 20t – 16t²</span>
-    <div class="sol">
-      <span class="r arr">p(t) = 4t(5 – 4t) = 0</span>
-      <span class="r">t = 0  or  5 – 4t = 0  →  t = 5/4</span>
-      <span class="r"><span class="bx">Zeroes: 0 and 5/4</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 2. Which graph represents p(t)? Justify.</span>
-    <div class="sol">
-      <span class="r arr">p(t) = –16t² + 20t.  Coefficient of t² is negative.</span>
-      <span class="r">So parabola opens downward (∩ shape).</span>
-      <span class="r">At t=0, h=0 (starts at water).  At t=5/4, h=0 (returns).</span>
-      <span class="r"><span class="bx">Graph (b) is correct.</span></span>
-    </div>
-  </div>
-
-  <div class="qblock">
-    <span class="q">Q. 3. Value of h at t = 3/2 sec? Interpret.<br>OR: Distance covered before hitting water again?</span>
-    <div class="sol">
-      <span class="r arr">h = 20(3/2) – 16(3/2)²  =  30 – 36  =  –6</span>
-      <span class="r">h = –6 cm (negative) → dolphin is below water level.</span>
-      <span class="r">It had re-entered water before t = 3/2 sec.</span>
-      <span class="r"><span class="bx">h = –6 cm (below water level)</span></span>
-      <span class="r">OR: Dolphin hits water at t = 5/4.  Distance = 20 × 5/4 = <span class="bx">25 cm</span></span>
-    </div>
+<div class="qb">
+  <span class="qt">Q.11. Sum and product of zeroes of 6x² – 5 respectively ?</span>
+  <div class="sol">
+    <span class="ln go">6x² + 0x – 5</span>
+    <span class="ln">sum = <span class="fr"><span class="num">–0</span><span class="den">6</span></span> = 0 &nbsp;&nbsp;&nbsp; product = <span class="fr"><span class="num">c</span><span class="den">a</span></span> = <span class="fr"><span class="num">–5</span><span class="den">6</span></span></span>
+    <span class="ln"><span class="bx">Ans : (d) &nbsp; 0 and <span class="fr"><span class="num">–5</span><span class="den">6</span></span></span></span>
   </div>
 </div>
+
+<div class="qb">
+  <span class="qt">Q.12. One zero of p(x) = (k²+4)x² + 13x + 4k is reciprocal of other.</span>
+  <div class="sol">
+    <span class="ln go">If zeroes are α and <span class="fr"><span class="num">1</span><span class="den">α</span></span> &nbsp;→&nbsp; product = α × <span class="fr"><span class="num">1</span><span class="den">α</span></span> = 1</span>
+    <span class="ln"><span class="fr"><span class="num">4k</span><span class="den">k²+4</span></span> = 1 &nbsp;→&nbsp; k² – 4k + 4 = 0 &nbsp;→&nbsp; (k–2)² = 0</span>
+    <span class="ln"><span class="bx">Ans : (a) &nbsp; k = 2</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.13. Polynomial whose zeroes are 2+√3 &amp; 2–√3.</span>
+  <div class="sol">
+    <span class="ln go">sum = 4 &nbsp;&nbsp;&nbsp; product = (2+√3)(2–√3) = 4 – 3 = 1</span>
+    <span class="ln"><span class="bx">Ans : (b) &nbsp; x² – 4x + 1</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.14. α &amp; β zeroes of 2x² + 5x – 9, find αβ.</span>
+  <div class="sol">
+    <span class="ln go">αβ = <span class="fr"><span class="num">c</span><span class="den">a</span></span> = <span class="fr"><span class="num">–9</span><span class="den">2</span></span></span>
+    <span class="ln"><span class="bx">Ans : (c) &nbsp; <span class="fr"><span class="num">–9</span><span class="den">2</span></span></span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.15. Quadratic polynomial whose zeroes are <span class="fr"><span class="num">2</span><span class="den">5</span></span> and <span class="fr"><span class="num">–1</span><span class="den">5</span></span>.</span>
+  <div class="sol">
+    <span class="ln go">sum = <span class="fr"><span class="num">1</span><span class="den">5</span></span> &nbsp;&nbsp;&nbsp; product = <span class="fr"><span class="num">–2</span><span class="den">25</span></span></span>
+    <span class="ln">x² – <span class="fr"><span class="num">1</span><span class="den">5</span></span>x – <span class="fr"><span class="num">2</span><span class="den">25</span></span> &nbsp;→&nbsp; × 25 &nbsp;=&nbsp; 25x² – 5x – 2</span>
+    <span class="ln"><span class="bx">Ans : (d) &nbsp; 25x² – 5x – 2</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.16. α &amp; β zeroes of px² – 2x + 3p and α+β = αβ. Find p.</span>
+  <div class="sol">
+    <span class="ln go">α+β = <span class="fr"><span class="num">2</span><span class="den">p</span></span> &nbsp;&nbsp;&nbsp; αβ = <span class="fr"><span class="num">3p</span><span class="den">p</span></span> = 3</span>
+    <span class="ln">Given : <span class="fr"><span class="num">2</span><span class="den">p</span></span> = 3 &nbsp;→&nbsp; 2 = 3p</span>
+    <span class="ln"><span class="bx">Ans : (b) &nbsp; p = <span class="fr"><span class="num">2</span><span class="den">3</span></span></span></span>
+  </div>
+</div>
+
+</div><!-- end page 2 -->
+
+
+<!-- ════════════════════════════════
+     PAGE 3  –  Assertion Reason Q17–Q20
+     ════════════════════════════════ -->
+<div class="page">
+<div class="nbh">
+  <div><span>Page No.</span><span></span></div>
+  <div><span>Date</span><span></span></div>
+</div>
+
+<span class="sec">Section A – Assertion Reason</span>
+
+<div class="qb">
+  <span class="qt">Q.17. A : one zero of (k–1)x² + kx + 1 is –3, k = <span class="fr"><span class="num">4</span><span class="den">3</span></span>.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; R : a is zero of p(x) if p(a) = 0.</span>
+  <div class="sol">
+    <span class="ln go">p(–3) = (k–1)(9) + k(–3) + 1 = 0</span>
+    <span class="ln">9k – 9 – 3k + 1 = 0 &nbsp;→&nbsp; 6k = 8 &nbsp;→&nbsp; k = <span class="fr"><span class="num">4</span><span class="den">3</span></span> ✓</span>
+    <span class="ln">R is correct definition and correctly explains A.</span>
+    <span class="ln"><span class="bx">Ans : (a) Both A and R true, R is correct explanation.</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.18. A : graph of p(x) parallel to x-axis → no zeroes.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; R : if p(x) doesn't intersect x-axis it has no zeroes.</span>
+  <div class="sol">
+    <span class="ln go">A line parallel to x-axis never crosses it. &nbsp; A is TRUE.</span>
+    <span class="ln">R is TRUE and correctly explains A.</span>
+    <span class="ln"><span class="bx">Ans : (a) Both A and R true, R is correct explanation.</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.19. A : α, β zeroes of x² – 5x – 3, then (<span class="fr"><span class="num">α</span><span class="den">β</span></span> + <span class="fr"><span class="num">β</span><span class="den">α</span></span>) = <span class="fr"><span class="num">31</span><span class="den">3</span></span>.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; R : α+β = <span class="fr"><span class="num">–b</span><span class="den">a</span></span> and αβ = <span class="fr"><span class="num">c</span><span class="den">a</span></span>.</span>
+  <div class="sol">
+    <span class="ln go">α + β = 5 &nbsp;&nbsp; αβ = –3</span>
+    <span class="ln"><span class="fr"><span class="num">α</span><span class="den">β</span></span> + <span class="fr"><span class="num">β</span><span class="den">α</span></span> = <span class="fr"><span class="num">(α+β)² – 2αβ</span><span class="den">αβ</span></span> = <span class="fr"><span class="num">25 + 6</span><span class="den">–3</span></span> = <span class="fr"><span class="num">–31</span><span class="den">3</span></span></span>
+    <span class="ln">A says <span class="fr"><span class="num">31</span><span class="den">3</span></span> but correct is <span class="fr"><span class="num">–31</span><span class="den">3</span></span>. &nbsp; A is FALSE, R is TRUE.</span>
+    <span class="ln"><span class="bx">Ans : (d) A is false but R is true.</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.20. A : zeroes of p(n) = x² – 2n – 3 are –1 &amp; –3.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; R : graph intersects x-axis at (–1, 0) and (3, 0).</span>
+  <div class="sol">
+    <span class="ln go">x² – 2x – 3 = (x–3)(x+1) = 0 &nbsp;→&nbsp; zeroes are –1 and 3.</span>
+    <span class="ln">A says –1 &amp; –3 but correct is –1 &amp; 3. &nbsp; A is FALSE, R is TRUE.</span>
+    <span class="ln"><span class="bx">Ans : (d) A is false but R is true.</span></span>
+  </div>
+</div>
+
+</div><!-- end page 3 -->
+
+
+<!-- ════════════════════════════════
+     PAGE 4  –  Section B  Q21–Q27
+     ════════════════════════════════ -->
+<div class="page">
+<div class="nbh">
+  <div><span>Page No.</span><span></span></div>
+  <div><span>Date</span><span></span></div>
+</div>
+
+<span class="sec">Section B</span>
+
+<div class="qb">
+  <span class="qt">Q.21. Find zeroes of 4x² – 7.</span>
+  <div class="sol">
+    <span class="ln go">4x² – 7 = 0 &nbsp;→&nbsp; x² = <span class="fr"><span class="num">7</span><span class="den">4</span></span> &nbsp;→&nbsp; x = ± <span class="fr"><span class="num">√7</span><span class="den">2</span></span></span>
+    <span class="ln"><span class="bx">Zeroes : <span class="fr"><span class="num">√7</span><span class="den">2</span></span> &nbsp;, &nbsp; <span class="fr"><span class="num">–√7</span><span class="den">2</span></span></span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.22. Quadratic polynomial, sum = 6, product = 9. Find zeroes.</span>
+  <div class="sol">
+    <span class="ln go">x² – (sum)x + product &nbsp;=&nbsp; x² – 6x + 9</span>
+    <span class="ln">x² – 3x – 3x + 9 = x(x–3) – 3(x–3) = (x–3)(x–3)</span>
+    <span class="ln"><span class="bx">Zeroes are 3 &amp; 3.</span> &nbsp;&nbsp; Quadratic polynomial = x² – 6x + 9</span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.23. Find quadratic polynomial whose zeroes are –2 &amp; –5.</span>
+  <div class="sol">
+    <span class="ln go">sum = –7 &nbsp;&nbsp;&nbsp; product = 10</span>
+    <span class="ln"><span class="bx">p(x) = x² + 7x + 10</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.24. Find quadratic polynomial whose zeroes are –9 &amp; 6.</span>
+  <div class="sol">
+    <span class="ln go">sum = –3 &nbsp;&nbsp;&nbsp; product = –54</span>
+    <span class="ln"><span class="bx">p(x) = x² + 3x – 54</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.25. Find zeroes of 5t² + 12t – 17.</span>
+  <div class="sol">
+    <span class="ln go">5t² + 17t – 5t – 17 = 0</span>
+    <span class="ln">t(5t + 17) – 1(5t + 17) = 0 &nbsp;→&nbsp; (t – 1)(5t + 17) = 0</span>
+    <span class="ln"><span class="bx">t = 1 &nbsp;and&nbsp; t = <span class="fr"><span class="num">–17</span><span class="den">5</span></span></span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.26. Find k if –1 is zero of p(x) = kx² – 4x + k.</span>
+  <div class="sol">
+    <span class="ln go">p(–1) = k(1) – 4(–1) + k = 0</span>
+    <span class="ln">k + 4 + k = 0 &nbsp;→&nbsp; 2k = –4</span>
+    <span class="ln"><span class="bx">k = –2</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.27. Find a &amp; b if they are zeroes of x² + ax + b.</span>
+  <div class="sol">
+    <span class="ln go">sum : a + b = –a &nbsp;→&nbsp; 2a + b = 0 …(i)</span>
+    <span class="ln">product : ab = b &nbsp;→&nbsp; b(a–1) = 0 &nbsp;→&nbsp; a = 1</span>
+    <span class="ln">from (i) : 2 + b = 0 &nbsp;→&nbsp; b = –2</span>
+    <span class="ln"><span class="bx">a = 1, &nbsp; b = –2</span></span>
+  </div>
+</div>
+
+</div><!-- end page 4 -->
+
+
+<!-- ════════════════════════════════
+     PAGE 5  –  Q28–Q31
+     ════════════════════════════════ -->
+<div class="page">
+<div class="nbh">
+  <div><span>Page No.</span><span></span></div>
+  <div><span>Date</span><span></span></div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.28. α &amp; β zeroes of f(x) = x² – 6x + k, find k if α² + β² = 40.</span>
+  <div class="sol">
+    <span class="ln go">α + β = 6, &nbsp; αβ = k</span>
+    <span class="ln">α² + β² = (α+β)² – 2αβ &nbsp;=&nbsp; 36 – 2k = 40</span>
+    <span class="ln">36 – 2k = 40 &nbsp;→&nbsp; 2k = 4 &nbsp;→&nbsp; k = <span class="fr"><span class="num">4</span><span class="den">–2</span></span></span>
+    <span class="ln"><span class="bx">k = –2</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.29. α &amp; β zeroes of 8x² + 14x + 3. Find <span class="fr"><span class="num">1</span><span class="den">α</span></span> + <span class="fr"><span class="num">1</span><span class="den">β</span></span>.</span>
+  <div class="sol">
+    <span class="ln go">α + β = <span class="fr"><span class="num">–14</span><span class="den">8</span></span> = <span class="fr"><span class="num">–7</span><span class="den">4</span></span></span>
+    <span class="ln">αβ = <span class="fr"><span class="num">3</span><span class="den">8</span></span></span>
+    <span class="ln"><span class="fr"><span class="num">1</span><span class="den">α</span></span> + <span class="fr"><span class="num">1</span><span class="den">β</span></span> = <span class="fr"><span class="num">α+β</span><span class="den">αβ</span></span> = <span class="fr"><span class="num"><span class="fr"><span class="num">–7</span><span class="den">4</span></span></span><span class="den"><span class="fr"><span class="num">3</span><span class="den">8</span></span></span></span> = <span class="fr"><span class="num">–7</span><span class="den">4</span></span> × <span class="fr"><span class="num">8</span><span class="den">3</span></span> = <span class="bx"><span class="fr"><span class="num">–14</span><span class="den">3</span></span></span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.30. Zeroes of x² + px + q are double the zeroes of 2x² – 5x – 3. Find p &amp; q.</span>
+  <div class="sol">
+    <span class="ln go">Zeroes of 2x² – 5x – 3 :</span>
+    <span class="ln">(2x + 1)(x – 3) = 0 &nbsp;→&nbsp; zeroes : <span class="fr"><span class="num">–1</span><span class="den">2</span></span> and 3</span>
+    <span class="ln">Double : –1 and 6</span>
+    <span class="ln">sum = 5 = –p &nbsp;→&nbsp; p = –5 &nbsp;&nbsp;&nbsp; product = –6 = q</span>
+    <span class="ln"><span class="bx">p = –5, &nbsp; q = –6</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.31. Find polynomial whose zeroes are reciprocals of zeroes of f(x) = ax² + bx + c.</span>
+  <div class="sol">
+    <span class="ln go">Let α, β be zeroes. &nbsp; New zeroes : <span class="fr"><span class="num">1</span><span class="den">α</span></span> and <span class="fr"><span class="num">1</span><span class="den">β</span></span></span>
+    <span class="ln">New sum = <span class="fr"><span class="num">α+β</span><span class="den">αβ</span></span> = <span class="fr"><span class="num">–b/a</span><span class="den">c/a</span></span> = <span class="fr"><span class="num">–b</span><span class="den">c</span></span></span>
+    <span class="ln">New product = <span class="fr"><span class="num">1</span><span class="den">αβ</span></span> = <span class="fr"><span class="num">a</span><span class="den">c</span></span></span>
+    <span class="ln">p(x) = x² + <span class="fr"><span class="num">b</span><span class="den">c</span></span>x + <span class="fr"><span class="num">a</span><span class="den">c</span></span> &nbsp;→&nbsp; × c</span>
+    <span class="ln"><span class="bx">Required polynomial = cx² + bx + a</span></span>
+  </div>
+</div>
+
+</div><!-- end page 5 -->
+
+
+<!-- ════════════════════════════════
+     PAGE 6  –  Section C  Q32–Q35
+     ════════════════════════════════ -->
+<div class="page">
+<div class="nbh">
+  <div><span>Page No.</span><span></span></div>
+  <div><span>Date</span><span></span></div>
+</div>
+
+<span class="sec">Section C</span>
+
+<div class="qb">
+  <span class="qt">Q.32. α &amp; β zeroes of p(x) = x² – (k+6)x + 2(2k–1). Find k if α+β = <span class="fr"><span class="num">αβ</span><span class="den">2</span></span>.</span>
+  <div class="sol">
+    <span class="ln go">sum = α+β = k+6</span>
+    <span class="ln">product = αβ = 2(2k–1) = 4k – 2.</span>
+    <span class="ln">Given : k + 6 = <span class="fr"><span class="num">4k–2</span><span class="den">2</span></span></span>
+    <span class="ln">k + 6 = 2k – 1 &nbsp;→&nbsp; 6 + 1 = 2k – k</span>
+    <span class="ln"><span class="bx">k = 7</span>.</span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.33. α &amp; β zeroes of 2x² + 7x + 5. Find α² + β² + αβ.</span>
+  <div class="sol">
+    <span class="ln go">α + β = <span class="fr"><span class="num">–7</span><span class="den">2</span></span> &nbsp;&nbsp;&nbsp; αβ = <span class="fr"><span class="num">5</span><span class="den">2</span></span></span>
+    <span class="ln">α² + β² + αβ = (α+β)² – 2αβ + αβ = (α+β)² – αβ</span>
+    <span class="ln">= (<span class="fr"><span class="num">–7</span><span class="den">2</span></span>)² – <span class="fr"><span class="num">5</span><span class="den">2</span></span> = <span class="fr"><span class="num">49</span><span class="den">4</span></span> – <span class="fr"><span class="num">10</span><span class="den">4</span></span></span>
+    <span class="ln"><span class="bx">= <span class="fr"><span class="num">39</span><span class="den">4</span></span></span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.34. Find zeroes of 6x² – 7x – 3 and verify relationship.</span>
+  <div class="sol">
+    <span class="ln go">6x² – 9x + 2x – 3 = 0</span>
+    <span class="ln">3x(2x – 3) + 1(2x – 3) = 0 &nbsp;→&nbsp; (3x+1)(2x–3) = 0</span>
+    <span class="ln">Zeroes : x = <span class="fr"><span class="num">–1</span><span class="den">3</span></span> &nbsp;and&nbsp; x = <span class="fr"><span class="num">3</span><span class="den">2</span></span></span>
+    <span class="ln">sum = <span class="fr"><span class="num">–1</span><span class="den">3</span></span> + <span class="fr"><span class="num">3</span><span class="den">2</span></span> = <span class="fr"><span class="num">7</span><span class="den">6</span></span> = <span class="fr"><span class="num">–(–7)</span><span class="den">6</span></span> = <span class="fr"><span class="num">–b</span><span class="den">a</span></span> ✓</span>
+    <span class="ln">product = (<span class="fr"><span class="num">–1</span><span class="den">3</span></span>)(<span class="fr"><span class="num">3</span><span class="den">2</span></span>) = <span class="fr"><span class="num">–1</span><span class="den">2</span></span> = <span class="fr"><span class="num">c</span><span class="den">a</span></span> ✓</span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.35. Find zeroes of 4√5 x² – 17x + 3√5 and verify.</span>
+  <div class="sol">
+    <span class="ln go">Product of extremes = 4√5 × 3√5 = 60, &nbsp; sum = –17</span>
+    <span class="ln">Factors : –12 and –5</span>
+    <span class="ln">4√5 x² – 12x – 5x + 3√5 = 0</span>
+    <span class="ln">4x(√5 x – 3) – √5(√5 x – 3) = 0 &nbsp;→&nbsp; (4x – √5)(√5 x – 3) = 0</span>
+    <span class="ln">Zeroes : x = <span class="fr"><span class="num">√5</span><span class="den">4</span></span> &nbsp;and&nbsp; x = <span class="fr"><span class="num">3</span><span class="den">√5</span></span></span>
+    <span class="ln">sum = <span class="fr"><span class="num">17</span><span class="den">4√5</span></span> = <span class="fr"><span class="num">–b</span><span class="den">a</span></span> ✓ &nbsp;&nbsp;&nbsp; product = <span class="fr"><span class="num">3</span><span class="den">4</span></span> = <span class="fr"><span class="num">c</span><span class="den">a</span></span> ✓</span>
+  </div>
+</div>
+
+</div><!-- end page 6 -->
+
+
+<!-- ════════════════════════════════
+     PAGE 7  –  Q36–Q40
+     ════════════════════════════════ -->
+<div class="page">
+<div class="nbh">
+  <div><span>Page No.</span><span></span></div>
+  <div><span>Date</span><span></span></div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.36. Show <span class="fr"><span class="num">1</span><span class="den">2</span></span> and <span class="fr"><span class="num">–3</span><span class="den">2</span></span> are zeroes of 4x² + 4x – 3 and verify.</span>
+  <div class="sol">
+    <span class="ln go">p(<span class="fr"><span class="num">1</span><span class="den">2</span></span>) = 4(<span class="fr"><span class="num">1</span><span class="den">4</span></span>) + 4(<span class="fr"><span class="num">1</span><span class="den">2</span></span>) – 3 = 1 + 2 – 3 = 0 ✓</span>
+    <span class="ln">p(<span class="fr"><span class="num">–3</span><span class="den">2</span></span>) = 4(<span class="fr"><span class="num">9</span><span class="den">4</span></span>) + 4(<span class="fr"><span class="num">–3</span><span class="den">2</span></span>) – 3 = 9 – 6 – 3 = 0 ✓</span>
+    <span class="ln">sum = <span class="fr"><span class="num">1</span><span class="den">2</span></span> + (<span class="fr"><span class="num">–3</span><span class="den">2</span></span>) = –1 = <span class="fr"><span class="num">–4</span><span class="den">4</span></span> = <span class="fr"><span class="num">–b</span><span class="den">a</span></span> ✓</span>
+    <span class="ln">product = (<span class="fr"><span class="num">1</span><span class="den">2</span></span>)(<span class="fr"><span class="num">–3</span><span class="den">2</span></span>) = <span class="fr"><span class="num">–3</span><span class="den">4</span></span> = <span class="fr"><span class="num">c</span><span class="den">a</span></span> ✓</span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.37. Sum of zeroes of p(x) = (a+1)x² + (2a+3)x + (3a+4) is –1. Find product.</span>
+  <div class="sol">
+    <span class="ln go">sum = <span class="fr"><span class="num">–(2a+3)</span><span class="den">a+1</span></span> = –1 &nbsp;→&nbsp; 2a+3 = a+1 &nbsp;→&nbsp; a = –2</span>
+    <span class="ln">product = <span class="fr"><span class="num">3(–2)+4</span><span class="den">–2+1</span></span> = <span class="fr"><span class="num">–2</span><span class="den">–1</span></span></span>
+    <span class="ln"><span class="bx">Product = 2</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.38. α, β zeroes of 4x² + 4x + 1. Form polynomial with zeroes 2α and 2β.</span>
+  <div class="sol">
+    <span class="ln go">4x² + 4x + 1 = (2x+1)² &nbsp;→&nbsp; α = β = <span class="fr"><span class="num">–1</span><span class="den">2</span></span></span>
+    <span class="ln">2α = 2β = –1</span>
+    <span class="ln">sum = –2, &nbsp; product = 1</span>
+    <span class="ln"><span class="bx">= x² + 2x + 1 = (x+1)²</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.39. Zeroes of x² – x – 2 are α &amp; β. Construct polynomial with zeroes 2α+1 and 2β+1.</span>
+  <div class="sol">
+    <span class="ln go">x² – x – 2 = (x–2)(x+1) &nbsp;→&nbsp; α = 2, β = –1</span>
+    <span class="ln">2α+1 = 5, &nbsp;&nbsp; 2β+1 = –1</span>
+    <span class="ln">sum = 4, &nbsp;&nbsp; product = –5</span>
+    <span class="ln"><span class="bx">p(x) = x² – 4x – 5</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.40. One zero of 3x² = 8x + 2k+1 is seven times the other. Find solutions and k.</span>
+  <div class="sol">
+    <span class="ln go">3x² – 8x – (2k+1) = 0. &nbsp; Let zeroes be α and 7α.</span>
+    <span class="ln">sum : 8α = <span class="fr"><span class="num">8</span><span class="den">3</span></span> &nbsp;→&nbsp; α = <span class="fr"><span class="num">1</span><span class="den">3</span></span></span>
+    <span class="ln">product : 7α² = <span class="fr"><span class="num">–(2k+1)</span><span class="den">3</span></span> &nbsp;→&nbsp; <span class="fr"><span class="num">7</span><span class="den">9</span></span> = <span class="fr"><span class="num">–(2k+1)</span><span class="den">3</span></span></span>
+    <span class="ln"><span class="fr"><span class="num">7</span><span class="den">3</span></span> = –(2k+1) &nbsp;→&nbsp; k = <span class="fr"><span class="num">–5</span><span class="den">3</span></span></span>
+    <span class="ln"><span class="bx">Zeroes : <span class="fr"><span class="num">1</span><span class="den">3</span></span> and <span class="fr"><span class="num">7</span><span class="den">3</span></span> &nbsp;&nbsp; k = <span class="fr"><span class="num">–5</span><span class="den">3</span></span></span></span>
+  </div>
+</div>
+
+</div><!-- end page 7 -->
+
+
+<!-- ════════════════════════════════
+     PAGE 8  –  Q41–Q44
+     ════════════════════════════════ -->
+<div class="page">
+<div class="nbh">
+  <div><span>Page No.</span><span></span></div>
+  <div><span>Date</span><span></span></div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.41. α &amp; β zeroes of 2x² – 5x + 7. Find polynomial with zeroes 2α+3β and 3α+2β.</span>
+  <div class="sol">
+    <span class="ln go">α + β = <span class="fr"><span class="num">5</span><span class="den">2</span></span>, &nbsp;&nbsp; αβ = <span class="fr"><span class="num">7</span><span class="den">2</span></span></span>
+    <span class="ln">sum = 5(α+β) = 5 × <span class="fr"><span class="num">5</span><span class="den">2</span></span> = <span class="fr"><span class="num">25</span><span class="den">2</span></span></span>
+    <span class="ln">product = (2α+3β)(3α+2β) = 6(α²+β²) + 13αβ</span>
+    <span class="ln">= 6[(<span class="fr"><span class="num">5</span><span class="den">2</span></span>)² – 7] + 13(<span class="fr"><span class="num">7</span><span class="den">2</span></span>) = 6[<span class="fr"><span class="num">25</span><span class="den">4</span></span> – 7] + <span class="fr"><span class="num">91</span><span class="den">2</span></span> = <span class="fr"><span class="num">–9</span><span class="den">2</span></span> + <span class="fr"><span class="num">91</span><span class="den">2</span></span> = 41</span>
+    <span class="ln"><span class="bx">p(x) = 2x² – 25x + 82</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.42. α &amp; β zeroes of 5x² + 5x + 1. Find (i) α² + β² &nbsp; (ii) α⁻¹ + β⁻¹</span>
+  <div class="sol">
+    <span class="ln go">α + β = –1, &nbsp;&nbsp; αβ = <span class="fr"><span class="num">1</span><span class="den">5</span></span></span>
+    <span class="ln">(i) α² + β² = (α+β)² – 2αβ = 1 – <span class="fr"><span class="num">2</span><span class="den">5</span></span> = <span class="bx"><span class="fr"><span class="num">3</span><span class="den">5</span></span></span></span>
+    <span class="ln">(ii) α⁻¹ + β⁻¹ = <span class="fr"><span class="num">α+β</span><span class="den">αβ</span></span> = <span class="fr"><span class="num">–1</span><span class="den"><span class="fr"><span class="num">1</span><span class="den">5</span></span></span></span> = <span class="bx">–5</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.43. Find zeroes of 4√3 x² + 5x – 2√3 by factorisation &amp; verify.</span>
+  <div class="sol">
+    <span class="ln go">Product = 4√3 × (–2√3) = –24, &nbsp; sum = 5</span>
+    <span class="ln">Factors : 8 and –3</span>
+    <span class="ln">4√3 x² + 8x – 3x – 2√3 = 0</span>
+    <span class="ln">4x(√3 x + 2) – √3(√3 x + 2) = 0 &nbsp;→&nbsp; (4x – √3)(√3 x + 2) = 0</span>
+    <span class="ln">Zeroes : x = <span class="fr"><span class="num">√3</span><span class="den">4</span></span> &nbsp;and&nbsp; x = <span class="fr"><span class="num">–2</span><span class="den">√3</span></span></span>
+    <span class="ln">sum = <span class="fr"><span class="num">–5</span><span class="den">4√3</span></span> = <span class="fr"><span class="num">–b</span><span class="den">a</span></span> ✓ &nbsp;&nbsp;&nbsp; product = <span class="fr"><span class="num">–1</span><span class="den">2</span></span> = <span class="fr"><span class="num">c</span><span class="den">a</span></span> ✓</span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.44. One zero of x² – 6x + b is twice the other. Find b and zeroes.</span>
+  <div class="sol">
+    <span class="ln go">Let zeroes be α and 2α.</span>
+    <span class="ln">sum : 3α = 6 &nbsp;→&nbsp; α = 2. &nbsp;&nbsp; Zeroes = 2 and 4.</span>
+    <span class="ln">product : 2 × 4 = 8 = b</span>
+    <span class="ln"><span class="bx">b = 8, &nbsp; Zeroes = 2 and 4</span></span>
+  </div>
+</div>
+
+</div><!-- end page 8 -->
+
+
+<!-- ════════════════════════════════
+     PAGE 9  –  Section D  Q45–Q48
+     ════════════════════════════════ -->
+<div class="page">
+<div class="nbh">
+  <div><span>Page No.</span><span></span></div>
+  <div><span>Date</span><span></span></div>
+</div>
+
+<span class="sec">Section D</span>
+
+<div class="qb">
+  <span class="qt">Q.45. α &amp; β zeroes of 2x² + 5x + k with α² + β² + αβ = <span class="fr"><span class="num">21</span><span class="den">4</span></span>. Find k.</span>
+  <div class="sol">
+    <span class="ln go">α + β = <span class="fr"><span class="num">–5</span><span class="den">2</span></span>, &nbsp;&nbsp; αβ = <span class="fr"><span class="num">k</span><span class="den">2</span></span></span>
+    <span class="ln">α² + β² + αβ = (α+β)² – αβ = <span class="fr"><span class="num">25</span><span class="den">4</span></span> – <span class="fr"><span class="num">k</span><span class="den">2</span></span> = <span class="fr"><span class="num">21</span><span class="den">4</span></span></span>
+    <span class="ln"><span class="fr"><span class="num">k</span><span class="den">2</span></span> = <span class="fr"><span class="num">4</span><span class="den">4</span></span> = 1 &nbsp;→&nbsp; <span class="bx">k = 2</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.46. α, β zeroes of f(x) = 2x² + 11x + 5. Find (a) α⁴ + β⁴ &nbsp; (b) <span class="fr"><span class="num">1</span><span class="den">α</span></span> + <span class="fr"><span class="num">1</span><span class="den">β</span></span> – 2αβ</span>
+  <div class="sol">
+    <span class="ln go">α + β = <span class="fr"><span class="num">–11</span><span class="den">2</span></span>, &nbsp;&nbsp; αβ = <span class="fr"><span class="num">5</span><span class="den">2</span></span></span>
+    <span class="ln">(a) α² + β² = (<span class="fr"><span class="num">–11</span><span class="den">2</span></span>)² – 2(<span class="fr"><span class="num">5</span><span class="den">2</span></span>) = <span class="fr"><span class="num">121</span><span class="den">4</span></span> – 5 = <span class="fr"><span class="num">101</span><span class="den">4</span></span></span>
+    <span class="ln">&nbsp;&nbsp;&nbsp; α⁴ + β⁴ = (<span class="fr"><span class="num">101</span><span class="den">4</span></span>)² – 2(<span class="fr"><span class="num">5</span><span class="den">2</span></span>)² = <span class="fr"><span class="num">10201</span><span class="den">16</span></span> – <span class="fr"><span class="num">200</span><span class="den">16</span></span> = <span class="bx"><span class="fr"><span class="num">10001</span><span class="den">16</span></span></span></span>
+    <span class="ln">(b) <span class="fr"><span class="num">1</span><span class="den">α</span></span> + <span class="fr"><span class="num">1</span><span class="den">β</span></span> – 2αβ = <span class="fr"><span class="num">α+β</span><span class="den">αβ</span></span> – 2αβ = <span class="fr"><span class="num">–11</span><span class="den">5</span></span> – 5 = <span class="bx"><span class="fr"><span class="num">–36</span><span class="den">5</span></span></span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.47. α &amp; β zeroes of 3x² + 2x + 1. Find polynomial with zeroes <span class="fr"><span class="num">1–α</span><span class="den">1+α</span></span> and <span class="fr"><span class="num">1–β</span><span class="den">1+β</span></span>.</span>
+  <div class="sol">
+    <span class="ln go">α + β = <span class="fr"><span class="num">–2</span><span class="den">3</span></span>, &nbsp;&nbsp; αβ = <span class="fr"><span class="num">1</span><span class="den">3</span></span></span>
+    <span class="ln">New sum = <span class="fr"><span class="num">2 – 2αβ</span><span class="den">1+(α+β)+αβ</span></span> = <span class="fr"><span class="num"><span class="fr"><span class="num">4</span><span class="den">3</span></span></span><span class="den"><span class="fr"><span class="num">2</span><span class="den">3</span></span></span></span> = 2</span>
+    <span class="ln">New product = <span class="fr"><span class="num">1–(α+β)+αβ</span><span class="den">1+(α+β)+αβ</span></span> = <span class="fr"><span class="num">2</span><span class="den"><span class="fr"><span class="num">2</span><span class="den">3</span></span></span></span> = 3</span>
+    <span class="ln"><span class="bx">Required polynomial : x² – 2x + 3</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.48. One zero of f(x) = 4x² – 8kx + 8x – 9 is negative of other. Find zeroes of kx² + 3kx + 2.</span>
+  <div class="sol">
+    <span class="ln go">f(x) = 4x² + (8–8k)x – 9</span>
+    <span class="ln">Zeroes α and –α &nbsp;→&nbsp; sum = 0 &nbsp;→&nbsp; <span class="fr"><span class="num">–(8–8k)</span><span class="den">4</span></span> = 0 &nbsp;→&nbsp; k = 1</span>
+    <span class="ln">kx²+3kx+2 = x²+3x+2 = (x+1)(x+2)</span>
+    <span class="ln"><span class="bx">Zeroes = –1 and –2</span></span>
+  </div>
+</div>
+
+</div><!-- end page 9 -->
+
+
+<!-- ════════════════════════════════
+     PAGE 10  –  Section E  Case Studies
+     ════════════════════════════════ -->
+<div class="page">
+<div class="nbh">
+  <div><span>Page No.</span><span></span></div>
+  <div><span>Date</span><span></span></div>
+</div>
+
+<span class="sec">Section E – Case Studies</span>
+
+<span class="csub">Case Study I – Highway Underpass</span>
+
+<div class="qb">
+  <span class="qt">Q.1. Highway overpass = x² – 2x – 8. Calculate zeroes.</span>
+  <div class="sol">
+    <span class="ln go">(x–4)(x+2) = 0</span>
+    <span class="ln"><span class="bx">Zeroes : x = 4 &nbsp;and&nbsp; x = –2</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.2. p(x) = ax² + bx + c, graph opens upward for what values of a ?</span>
+  <div class="sol">
+    <span class="ln go">Parabola opens upward when coefficient of x² is positive.</span>
+    <span class="ln"><span class="bx">a &gt; 0</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.3. One zero = 6, sum = 0. Represent using quadratic polynomial.</span>
+  <div class="sol">
+    <span class="ln go">sum = 0 &nbsp;→&nbsp; other zero = –6. &nbsp;&nbsp; product = –36</span>
+    <span class="ln"><span class="bx">p(x) = x² – 36</span></span>
+  </div>
+</div>
+
+<span class="csub">Case Study II – Rainbow</span>
+
+<div class="qb">
+  <span class="qt">Q.1. From graph, write number of zeroes of the curve.</span>
+  <div class="sol">
+    <span class="ln go">Graph touches x-axis at 2 points. &nbsp; <span class="bx">Zeroes = 2</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.2. Graph does not intersect X-axis. How many zeroes ?</span>
+  <div class="sol">
+    <span class="ln go"><span class="bx">Zeroes = 0</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.3(a). p(x) = x² + (a+1)x + b, zeroes 2 and –3. Find a &amp; b.</span>
+  <div class="sol">
+    <span class="ln go">sum = –1 = –(a+1) &nbsp;→&nbsp; <span class="bx">a = 0</span> &nbsp;&nbsp;&nbsp; product = –6 = b &nbsp;→&nbsp; <span class="bx">b = –6</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.3(b). OR : x² – 2x – (7p+3), –4 is zero. Find p.</span>
+  <div class="sol">
+    <span class="ln go">(–4)² – 2(–4) – (7p+3) = 0 &nbsp;→&nbsp; 16 + 8 – 7p – 3 = 0 &nbsp;→&nbsp; 21 = 7p</span>
+    <span class="ln"><span class="bx">p = 3</span></span>
+  </div>
+</div>
+
+</div><!-- end page 10 -->
+
+
+<!-- ════════════════════════════════
+     PAGE 11  –  Case Study III Dolphin
+     ════════════════════════════════ -->
+<div class="page">
+<div class="nbh">
+  <div><span>Page No.</span><span></span></div>
+  <div><span>Date</span><span></span></div>
+</div>
+
+<span class="csub">Case Study III – Dolphin</span>
+
+<div class="qb">
+  <span class="qt">Q.1. Find zeroes of p(t) = 20t – 16t²</span>
+  <div class="sol">
+    <span class="ln go">p(t) = 4t(5 – 4t) = 0</span>
+    <span class="ln">t = 0 &nbsp; or &nbsp; 5 – 4t = 0 &nbsp;→&nbsp; t = <span class="fr"><span class="num">5</span><span class="den">4</span></span></span>
+    <span class="ln"><span class="bx">Zeroes : 0 and <span class="fr"><span class="num">5</span><span class="den">4</span></span></span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.2. Which graph represents p(t) ? Justify.</span>
+  <div class="sol">
+    <span class="ln go">p(t) = –16t² + 20t. &nbsp; Coefficient of t² is negative.</span>
+    <span class="ln">So parabola opens downward (∩ shape).</span>
+    <span class="ln">At t = 0, h = 0 (starts at water). &nbsp; At t = <span class="fr"><span class="num">5</span><span class="den">4</span></span>, h = 0 (returns).</span>
+    <span class="ln"><span class="bx">Graph (b) is correct.</span></span>
+  </div>
+</div>
+
+<div class="qb">
+  <span class="qt">Q.3. Value of h at t = <span class="fr"><span class="num">3</span><span class="den">2</span></span> sec ? Interpret.<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OR : Distance covered before hitting water again ?</span>
+  <div class="sol">
+    <span class="ln go">h = 20(<span class="fr"><span class="num">3</span><span class="den">2</span></span>) – 16(<span class="fr"><span class="num">3</span><span class="den">2</span></span>)² = 30 – 16(<span class="fr"><span class="num">9</span><span class="den">4</span></span>) = 30 – 36 = –6</span>
+    <span class="ln">h = –6 cm (negative) &nbsp;→&nbsp; dolphin is below water level.</span>
+    <span class="ln">It had re-entered water before t = <span class="fr"><span class="num">3</span><span class="den">2</span></span> sec.</span>
+    <span class="ln"><span class="bx">h = –6 cm (below water level)</span></span>
+    <span class="ln">OR : Dolphin hits water at t = <span class="fr"><span class="num">5</span><span class="den">4</span></span>. &nbsp; Distance = 20 × <span class="fr"><span class="num">5</span><span class="den">4</span></span> = <span class="bx">25 cm</span></span>
+  </div>
+</div>
+
+</div><!-- end page 11 -->
 
 </body>
 </html>
